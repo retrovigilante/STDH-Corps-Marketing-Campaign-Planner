@@ -1,0 +1,67 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+  $(function() {
+    $('#sidebar-execute-button').click(onExecuteClick);
+
+    $('#pull-event-title').click(function() { pullValue('event-title'); });
+    $('#pull-event-start-date').click(function() { pullValue('event-start-date'); });
+    $('#pull-event-start-time').click(function() { pullValue('event-start-time'); });
+    $('#pull-event-end-date').click(function() { pullValue('event-end-date'); });
+    $('#pull-event-end-time').click(function() { pullValue('event-end-time'); });
+    $('#pull-event-description').click(function() { pullValue('event-description'); });
+
+    $('#pull-email-recipients').click(function() { pullValue('email-recipients'); });
+    $('#pull-email-subject').click(function() { pullValue('email-subject'); });
+    $('#pull-email-body').click(function() { pullValue('email-body'); });
+  });
+
+  function onExecuteClick() {
+    this.disabled = true;
+    var action = $('#sidebar-action').val();
+    var campaign = {
+      title: action === 'addEvent' ? $('#event-title').val() : '',
+      startDate: $('#event-start-date').val(),
+      startTime: $('#event-start-time').val(),
+      endDate: $('#event-end-date').val(),
+      endTime: $('#event-end-time').val(),
+      description: $('#event-description').val(),
+      recipients: $('#email-recipients').val(),
+      subject: $('#email-subject').val(),
+      body: $('#email-body').val()
+    };
+    showStatus('Working...');
+    google.script.run
+        .withSuccessHandler(function() {
+          showStatus('Execution successful.', 'success');
+          $('#sidebar-execute-button').prop('disabled', false);
+        })
+        .withFailureHandler(function(msg) {
+          showStatus('Execution failed: ' + msg, 'error');
+          $('#sidebar-execute-button').prop('disabled', false);
+        })
+        .manageCampaigns(action, campaign);
+  }
+
+  function pullValue(field) {
+    google.script.run
+        .withSuccessHandler(function(value) {
+          $('#' + field).val(value);
+        })
+        .getActiveValue(field);
+  }
+
+  function showStatus(msg, classId) {
+    $('#sidebar-status').removeClass().html(msg).addClass(classId);
+  }
+
+  function switchAction(action) {
+    $('#calendar-event-section').hide();
+    $('#email-campaign-section').hide();
+    
+    if (action === 'addEvent') {
+      $('#calendar-event-section').show();
+    } else if (action === 'sendEmail') {
+      $('#email-campaign-section').show();
+    }
+  }
+</script>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= HtmlService.createHtmlOutputFromFile('Stylesheet').getContent(); ?>
+  </head>
+  <body>
+    <div class="sidebar-container">
+      <h2>Marketing Campaign Planner</h2>
+      
+      <div class="block" id="sidebar-action-select">
+        <label for="sidebar-action">Select an action:</label>
+        <select class="width-100" id="sidebar-action" onchange="switchAction(this.value)">
+          <option value="">-- Select an action --</option>
+          <option value="addEvent">Add Campaign Event to Calendar</option>
+          <option value="sendEmail">Send Email Campaign</option>
+        </select>
+      </div>
+      
+      <div id="calendar-event-section" style="display: none;">
+        <h3>Calendar Event</h3>
+        <div class="block" id="event-details">
+          <label for="event-title">Title:</label>
+          <div class="input-group">
+            <input type="text" id="event-title" class="width-100">
+            <button class="small-btn" id="pull-event-title">Pull</button>
+          </div>
+          
+          <label for="event-start-date">Start Date:</label>
+          <div class="input-group">
+            <input type="date" id="event-start-date" class="width-100">
+            <button class="small-btn" id="pull-event-start-date">Pull</button>
+          </div>
+          
+          <label for="event-start-time">Start Time:</label>
+          <div class="input-group">
+            <input type="text" id="event-start-time" class="width-100" placeholder="HH:mm">
+            <button class="small-btn" id="pull-event-start-time">Pull</button>
+          </div>
+          
+          <label for="event-end-date">End Date:</label>
+          <div class="input-group">
+            <input type="date" id="event-end-date" class="width-100">
+            <button class="small-btn" id="pull-event-end-date">Pull</button>
+          </div>
+          
+          <label for="event-end-time">End Time:</label>
+          <div class="input-group">
+            <input type="text" id="event-end-time" class="width-100" placeholder="HH:mm">
+            <button class="small-btn" id="pull-event-end-time">Pull</button>
+          </div>
+          
+          <label for="event-description">Description:</label>
+          <div class="input-group">
+            <textarea id="event-description" class="width-100"></textarea>
+            <button class="small-btn" id="pull-event-description">Pull</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="email-campaign-section" style="display: none;">
+        <h3>Email Campaign</h3>
+        <div class="block" id="email-details">
+          <label for="email-recipients">Recipients (Email):</label>
+          <div class="input-group">
+            <textarea id="email-recipients" class="width-100"></textarea>
+            <button class="small-btn" id="pull-email-recipients">Pull</button>
+          </div>
+          
+          <label for="email-subject">Email Subject:</label>
+          <div class="input-group">
+            <input type="text" id="email-subject" class="width-100">
+            <button class="small-btn" id="pull-email-subject">Pull</button>
+          </div>
+          
+          <label for="email-body">Email Body:</label>
+          <div class="input-group">
+            <textarea id="email-body" class="width-100"></textarea>
+            <button class="small-btn" id="pull-email-body">Pull</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="block" id="sidebar-button-bar">
+        <button class="action primary" id="sidebar-execute-button">Execute</button>
+      </div>
+      <div id="sidebar-status"></div>
+    </div>
+    <?!= HtmlService.createHtmlOutputFromFile('SidebarJavaScript').getContent(); ?>
+  </body>
+</html>
